@@ -7,9 +7,9 @@ fandom.set_wiki('farscape')
 fandom.set_lang('en')
 
 DEFAULT_COUNT = 3
-EP_BOX_TOKEN = 'Episode&#160;no.'
-SEASON_NUM_TOKEN = '<td>Season&#160;'
-EPISODE_NUM_TOKEN = '<br />Episode&#160;'
+EP_BOX_TOKEN = 'Episode\xa0no.'
+SEASON_NUM_TOKEN = '<td>Season\xa0'
+EPISODE_NUM_TOKEN = '<br>Episode\xa0'
 TITLE_TOKEN = 'title="'
 FIRST_EP_NAME = 'Premiere'
 FIRST_COMIC_NAME = 'Return of the King'
@@ -26,7 +26,7 @@ def describe(page) :
     episode_snippet = page.html[index: index+100]
 
     season_index = episode_snippet.find(SEASON_NUM_TOKEN) + len(SEASON_NUM_TOKEN)
-    season_end_index = episode_snippet.find('<br />', season_index)
+    season_end_index = episode_snippet.find('<br>', season_index)
     season_number = episode_snippet[season_index: season_end_index]
 
     episode_index = episode_snippet.find(EPISODE_NUM_TOKEN) + len(EPISODE_NUM_TOKEN)
@@ -40,7 +40,7 @@ def describe(page) :
     sys.stdout.flush()
 
 def get_next_released(page) :
-    index = page.html.find('Next&#160;→')
+    index = page.html.find('Next\xa0→')
     index = page.html.find('</td>', index)
     index = page.html.find(TITLE_TOKEN, index) + len(TITLE_TOKEN)
     endIndex = page.html.find('"', index)
