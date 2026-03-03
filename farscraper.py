@@ -1,5 +1,6 @@
 import argparse
 import fandom
+import re
 import sys
 import traceback
 
@@ -22,39 +23,32 @@ argp.add_argument('page_title', type=str, nargs="?")
 argp.add_argument('count', type=int, nargs="?", default=DEFAULT_COUNT)
 
 def describe(page) :
-    index = page.html.find(EP_BOX_TOKEN) + len(EP_BOX_TOKEN)
-    episode_snippet = page.html[index: index+100]
-
-    season_index = episode_snippet.find(SEASON_NUM_TOKEN) + len(SEASON_NUM_TOKEN)
-    season_end_index = episode_snippet.find('<br>', season_index)
-    season_number = episode_snippet[season_index: season_end_index]
-
-    episode_index = episode_snippet.find(EPISODE_NUM_TOKEN) + len(EPISODE_NUM_TOKEN)
-    episode_end_index = episode_snippet.find('\n', episode_index)
-    episode_number = episode_snippet[episode_index: episode_end_index]
-
-    if season_number and episode_number :
+    pattern = r'Episode\xa0no\..*?<td>Season\xa0(\d+)<br>Episode\xa0(\d+)'
+    match = re.search(pattern, page.html, re.DOTALL)
+    
+    if match :
+        season_number = match.group(1)
+        episode_number = match.group(2)
         print('FAR {0}x{1} "{2}"'.format(season_number, episode_number.zfill(2), page.title))
     else :
         print('MOV "{0}"'.format(page.title))
     sys.stdout.flush()
 
 def get_next_released(page) :
-    index = page.html.find('Next\xa0→')
-    index = page.html.find('</td>', index)
-    index = page.html.find(TITLE_TOKEN, index) + len(TITLE_TOKEN)
-    endIndex = page.html.find('"', index)
-    next_title = page.html[index: endIndex]
-    next = fandom.page(next_title)
-    return next
+    pattern = r'Next\xa0→.*?</td>.*?title="([^"]+)"'
+    match = re.search(pattern, page.html, re.DOTALL)
+    
+    if match :
+        next_title = match.group(1)
+        next = fandom.page(next_title)
+        return next
+    else :
+        raise ValueError('Could not find next episode link')
 
 if __name__ == '__main__' :
     args = argp.parse_args()
 
-    if args.count :
-        count = args.count
-    else :
-        count = DEFAULT_COUNT
+    count = args.count
 
     if args.page_title :
         page_title = args.page_title
