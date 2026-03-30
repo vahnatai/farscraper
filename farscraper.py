@@ -33,13 +33,12 @@ def describe(page):
 
 def get_next_released(page):
     match = _NEXT_RE.search(page.html)
-    
-    if match:
-        next_title = match.group(1)
-        next = fandom.page(next_title)
-        return next
-    else:
+    if match is None:
         raise ValueError('Could not find next episode link')
+
+    next_title = match.group(1)
+    next_page = fandom.page(next_title)
+    return next_page
 
 if __name__ == '__main__':
     args = argp.parse_args()
