@@ -8,10 +8,6 @@ fandom.set_wiki('farscape')
 fandom.set_lang('en')
 
 DEFAULT_COUNT = 3
-EP_BOX_TOKEN = 'Episode\xa0no.'
-SEASON_NUM_TOKEN = '<td>Season\xa0'
-EPISODE_NUM_TOKEN = '<br>Episode\xa0'
-TITLE_TOKEN = 'title="'
 FIRST_EP_NAME = 'Premiere'
 FIRST_COMIC_NAME = 'Return of the King'
 
