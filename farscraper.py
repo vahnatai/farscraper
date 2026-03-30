@@ -27,10 +27,9 @@ def describe(page):
     if match:
         season_number = match.group(1)
         episode_number = match.group(2)
-        print(f'FAR {season_number}x{episode_number.zfill(2)} "{page.title}"')
+        print(f'FAR {season_number}x{episode_number.zfill(2)} "{page.title}"', flush=True)
     else:
-        print(f'MOV "{page.title}"')
-    sys.stdout.flush()
+        print(f'MOV "{page.title}"', flush=True)
 
 def get_next_released(page):
     match = _NEXT_RE.search(page.html)
@@ -66,7 +65,7 @@ if __name__ == '__main__':
             page = get_next_released(page)
             if page.title == FIRST_COMIC_NAME:
                 # TODO comics listing
-                print('comics listing not yet implemented...')
+                print('comics listing not yet implemented...', flush=True)
                 exit()
             describe(page)
         except Exception as e:
