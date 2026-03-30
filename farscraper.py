@@ -70,5 +70,5 @@ if __name__ == '__main__':
             describe(page)
         except Exception as e:
             print('Exception:', e)
-            traceback.print_exception(e)
+            traceback.print_exception(type(e), e, e.__traceback__)
             exit()
