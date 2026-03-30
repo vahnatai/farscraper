@@ -11,6 +11,9 @@ DEFAULT_COUNT = 3
 FIRST_EP_NAME = 'Premiere'
 FIRST_COMIC_NAME = 'Return of the King'
 
+_EPISODE_RE = re.compile(r'Episode\xa0no\..*?<td>Season\xa0(\d+)<br>Episode\xa0(\d+)', re.DOTALL)
+_NEXT_RE = re.compile(r'Next\xa0→.*?</td>.*?title="([^"]+)"', re.DOTALL)
+
 argp = argparse.ArgumentParser(
     prog='farscraper',
     description='calculates watch orders for Farscape by scraping the Farscape Encyclopedia Project wiki'
@@ -19,8 +22,7 @@ argp.add_argument('page_title', type=str, nargs="?")
 argp.add_argument('count', type=int, nargs="?", default=DEFAULT_COUNT)
 
 def describe(page) :
-    pattern = r'Episode\xa0no\..*?<td>Season\xa0(\d+)<br>Episode\xa0(\d+)'
-    match = re.search(pattern, page.html, re.DOTALL)
+    match = _EPISODE_RE.search(page.html)
     
     if match :
         season_number = match.group(1)
@@ -31,8 +33,7 @@ def describe(page) :
     sys.stdout.flush()
 
 def get_next_released(page) :
-    pattern = r'Next\xa0→.*?</td>.*?title="([^"]+)"'
-    match = re.search(pattern, page.html, re.DOTALL)
+    match = _NEXT_RE.search(page.html)
     
     if match :
         next_title = match.group(1)
