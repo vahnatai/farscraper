@@ -45,16 +45,13 @@ if __name__ == '__main__':
 
     count = args.count
 
-    if args.page_title:
-        page_title = args.page_title
-    else:
-        page_title = FIRST_EP_NAME
-        page = fandom.page(page_title)
-        describe(page)
-        count -= 1
-
     try:
-        page = fandom.page(page_title)
+        if args.page_title:
+            page = fandom.page(args.page_title)
+        else:
+            page = fandom.page(FIRST_EP_NAME)
+            describe(page)
+            count -= 1
     except fandom.error.PageError as e:
         print(e)
         sys.exit(1)
