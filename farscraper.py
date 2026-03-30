@@ -27,9 +27,9 @@ def describe(page):
     if match:
         season_number = match.group(1)
         episode_number = match.group(2)
-        print('FAR {0}x{1} "{2}"'.format(season_number, episode_number.zfill(2), page.title))
+        print(f'FAR {season_number}x{episode_number.zfill(2)} "{page.title}"')
     else:
-        print('MOV "{0}"'.format(page.title))
+        print(f'MOV "{page.title}"')
     sys.stdout.flush()
 
 def get_next_released(page):
