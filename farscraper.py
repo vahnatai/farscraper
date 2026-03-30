@@ -57,7 +57,7 @@ if __name__ == '__main__':
         page = fandom.page(page_title)
     except fandom.error.PageError as e:
         print(e)
-        exit()
+        sys.exit(1)
 
     for i in range(count):
         try:
@@ -65,9 +65,9 @@ if __name__ == '__main__':
             if page.title == FIRST_COMIC_NAME:
                 # TODO comics listing
                 print('comics listing not yet implemented...', flush=True)
-                exit()
+                sys.exit(1)
             describe(page)
         except Exception as e:
             print('Exception:', e)
             traceback.print_exception(type(e), e, e.__traceback__)
-            exit()
+            sys.exit(1)
