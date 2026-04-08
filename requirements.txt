@@ -1,0 +1,1 @@
+fandom-py @ git+https://github.com/vahnatai/fandom-py-fixes.git
